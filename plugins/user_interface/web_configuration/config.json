@@ -1,0 +1,7 @@
+{
+  "sppobAddress":{
+    "enabled": {"value": false, "type": "boolean"}, 
+    "group": {"value": 0,"type":"number"},
+    "device": {"value": 0,"type":"number"}
+  }
+}

@@ -1,0 +1,180 @@
+{
+	"page": {
+		"label": "TRANSLATE.PLUGIN_CONFIGURATION"
+	},
+	"sections": [{
+		"id": "sppob_config",
+		"element": "section",
+		"label": "SPPoB",
+		"icon": "fa-beer",
+		"onSave": {
+			"type": "controller",
+			"endpoint": "user_interface/web_configuration",
+			"method": "saveConfig"
+		},
+		"saveButton": {
+			"label": "Save",
+			"data": ["SppobEnabled",
+			"SppobGroup",
+            "SppobDevice"]
+		},
+		"content": [{
+			"id": "SppobEnabled",
+			"element": "switch",
+			"label": "Enable Sppob",
+			"value": true
+		},
+		{
+			"id": "SppobGroup",
+			"element": "select",
+			"label": "Sppob group address",
+			"value": {
+				"value": 0,
+				"label": "0"
+			},
+			"options": [
+            {
+				"value": 0,
+				"label": "0"
+			},
+            {
+				"value": 1,
+				"label": "1"
+			},
+			{
+				"value": 2,
+				"label": "2"
+			},
+			{
+				"value": 3,
+				"label": "3"
+			},
+			{
+				"value": 4,
+				"label": "4"
+			},
+			{
+				"value": 5,
+				"label": "5"
+			},
+			{
+				"value": 6,
+				"label": "6"
+			},
+			{
+				"value": 7,
+				"label": "7"
+			},
+			{
+				"value": 8,
+				"label": "8"
+			},
+			{
+				"value": 9,
+				"label": "9"
+			},
+			{
+				"value": 10,
+				"label": "A"
+			},
+            {
+				"value": 11,
+				"label": "B"
+			},
+            {
+				"value": 12,
+				"label": "C"
+			},
+            {
+				"value": 13,
+				"label": "D"
+			},
+            {
+				"value": 14,
+				"label": "E"
+			},
+             {
+				"value": 15,
+				"label": "F"
+			}],
+			"visibleIf": {
+				"field": "SppobEnabled",
+				"value": true
+			}
+		},
+        {
+			"id": "SppobDevice",
+			"element": "select",
+			"label": "Sppob device address",
+			"value": {
+				"value": 0,
+				"label": "0"
+			},
+			"options": [
+            {
+				"value": 0,
+				"label": "0"
+			},
+            {
+				"value": 1,
+				"label": "1"
+			},
+			{
+				"value": 2,
+				"label": "2"
+			},
+			{
+				"value": 3,
+				"label": "3"
+			},
+			{
+				"value": 4,
+				"label": "4"
+			},
+			{
+				"value": 5,
+				"label": "5"
+			},
+			{
+				"value": 6,
+				"label": "6"
+			},
+			{
+				"value": 7,
+				"label": "7"
+			},
+			{
+				"value": 8,
+				"label": "8"
+			},
+			{
+				"value": 9,
+				"label": "9"
+			},
+			{
+				"value": 10,
+				"label": "A"
+			},
+            {
+				"value": 11,
+				"label": "B"
+			},
+            {
+				"value": 12,
+				"label": "C"
+			},
+            {
+				"value": 13,
+				"label": "D"
+			},
+            {
+				"value": 14,
+				"label": "E"
+			}],
+			"visibleIf": {
+				"field": "SppobEnabled",
+				"value": true
+			}
+		}]
+	}]
+}
