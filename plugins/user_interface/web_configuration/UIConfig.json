@@ -1,0 +1,202 @@
+{
+  "page": {
+    "label": "TRANSLATE.PLUGIN_CONFIGURATION"
+  },
+  "sections": [
+    {
+       "id": "sppob_config",
+       "element": "section",
+       "label": "SPPoB",
+       "icon": "fa-beer",  
+       "onSave": {"type":"controller", "endpoint":"user_interface/web_configuration", "method":"saveConfig"},
+       "saveButton": {
+            "label": "Save",
+            "data": []
+        },
+       "content":[
+        {
+            "id": "sppobEnable",
+            "element": "switch",
+            "label": "Enable Sppob",
+            "value": false
+        },
+        {
+          "id": "SppobPlay",
+          "element": "select",
+          "label": "SppobPlay",
+          "value": {"value": 0,"label": "0"},
+          "options": [
+            {
+              "value": 1,
+              "label": "1"
+            },
+            {
+              "value": 2,
+              "label": "2"
+            },
+            {
+              "value": 3,
+              "label": "3"
+            },
+            {
+              "value": 4,
+              "label": "4"
+            },
+            {
+              "value": 5,
+              "label": "5"
+            },
+            {
+              "value": 6,
+              "label": "6"
+            },
+            {
+              "value": 7,
+              "label": "7"
+            },
+            {
+              "value": 8,
+              "label": "8"
+            },
+            {
+              "value": 9,
+              "label": "9"
+            },
+            {
+              "value": 10,
+              "label": "10"
+            }
+          ],
+          "visibleIf": {
+            "field": "sppobEnable",
+            "value": true
+          }
+        },
+        {
+          "id": "SppobVolUp",
+          "element": "select",
+          "label": "SppobVolUp",
+          "value": {"value": 0,"label": "0"},
+          "options": [
+            {
+              "value": 1,
+              "label": "1"
+            },
+            {
+              "value": 2,
+              "label": "2"
+            },
+            {
+              "value": 3,
+              "label": "3"
+            },
+            {
+              "value": 4,
+              "label": "4"
+            },
+            {
+              "value": 5,
+              "label": "5"
+            },
+            {
+              "value": 6,
+              "label": "6"
+            },
+            {
+              "value": 7,
+              "label": "7"
+            },
+            {
+              "value": 8,
+              "label": "8"
+            },
+            {
+              "value": 9,
+              "label": "9"
+            },
+            {
+              "value": 10,
+              "label": "10"
+            }
+          ],
+          "visibleIf": {
+            "field": "sppobEnable",
+            "value": true
+          }
+        }
+        ]
+    },
+        
+    {
+       "id": "gpio_config",
+       "element": "section",
+       "label": "GPIO",
+       "icon": "fa-cogs",  
+       "onSave": {"type":"controller", "endpoint":"user_interface/web_configuration", "method":"saveConfigGpio"},
+       "saveButton": {
+            "label": "Save",
+            "data": []
+        },
+       "content":[
+        {
+            "id": "gpioEnable",
+            "element": "switch",
+            "label": "Enable GPIO",
+            "value": false
+        },
+        {
+          "id": "GpioPlay",
+          "element": "select",
+          "label": "GPlay",
+          "value": {"value": 0,"label": "0"},
+          "options": [
+            {
+              "value": 1,
+              "label": "1"
+            },
+            {
+              "value": 2,
+              "label": "2"
+            },
+            {
+              "value": 3,
+              "label": "3"
+            },
+            {
+              "value": 4,
+              "label": "4"
+            },
+            {
+              "value": 5,
+              "label": "5"
+            },
+            {
+              "value": 6,
+              "label": "6"
+            },
+            {
+              "value": 7,
+              "label": "7"
+            },
+            {
+              "value": 8,
+              "label": "8"
+            },
+            {
+              "value": 9,
+              "label": "9"
+            },
+            {
+              "value": 10,
+              "label": "10"
+            }
+          ],
+          "visibleIf": {
+            "field": "gpioEnable",
+            "value": true
+          }
+        }
+        ]
+    }
+  ]
+}
