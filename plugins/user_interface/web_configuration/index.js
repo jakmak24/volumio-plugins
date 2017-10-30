@@ -18,8 +18,6 @@ function webConfiguration(context) {
 
 }
 
-
-
 webConfiguration.prototype.onVolumioStart = function()
 {
 	var self = this;
@@ -264,5 +262,6 @@ webConfiguration.prototype.saveConfig = function(data)
     self.config.set('sppobAddress.enabled',data['SppobEnabled']);
 	self.config.set('sppobAddress.group',data['SppobGroup']['value']);
     self.config.set('sppobAddress.device',data['SppobDevice']['value']);
+    exec('pkill -16 volumio_addon');
 	self.commandRouter.pushToastMessage('success',"Sppob Address", "Configuration saved");
 };
