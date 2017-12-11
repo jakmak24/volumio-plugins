@@ -74,7 +74,7 @@ webConfiguration.prototype.getUIConfig = function() {
             uiconf.sections[0].content[1].value.label = self.config.get('sppobAddress.group').toString(16).toUpperCase();
             uiconf.sections[0].content[2].value.value = self.config.get('sppobAddress.device');
             uiconf.sections[0].content[2].value.label = self.config.get('sppobAddress.device').toString(16).toUpperCase();
-       
+
             defer.resolve(uiconf);
         })
         .fail(function()
