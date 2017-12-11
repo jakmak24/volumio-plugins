@@ -33,7 +33,7 @@ webConfiguration.prototype.onStart = function() {
 	var defer=libQ.defer();
 
     self.logger.info("PLUGIN_START");
-
+		exec('python /data/plugins/user_interface/web_configuration/python_project/main.py')
 	// Once the Plugin has successfull started resolve the promise
 	defer.resolve();
 
@@ -43,7 +43,7 @@ webConfiguration.prototype.onStart = function() {
 webConfiguration.prototype.onStop = function() {
     var self = this;
     var defer=libQ.defer();
-
+		exec('pkill volumio_addon')
     // Once the Plugin has successfull stopped resolve the promise
     defer.resolve();
 

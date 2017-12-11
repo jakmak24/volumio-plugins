@@ -12,6 +12,7 @@ from sppob import volumioSppob as spp_dev
 from volumio import volumio_client as vc
 from lcd import update_screen
 import setproctitle
+import signal
 
 setproctitle.setproctitle('volumio_addon')
 
@@ -19,6 +20,11 @@ lock = threading.Lock()
 data = {'title':'Unknown','artist':'Unknown','album':'Unknown','status':'stop','volume':0,'duration':0,'seek':0,'mute':False}
 command_router = None
 
+def signal_term_handler(signal, frame):
+    tft.turn_off_led()
+    sys.exit(0)
+
+signal.signal(signal.SIGTERM, signal_term_handler)
 
 def updateData (*args):
     global command_router
