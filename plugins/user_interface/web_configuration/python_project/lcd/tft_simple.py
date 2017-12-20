@@ -42,7 +42,7 @@ def convert_sec_to_time(seconds):
 MaxCharsPerLine = 18
 progress_bar_max_size = 20
 TURQ = (84, 198, 136)
-DARK_RED = (215,90,74)
+DARK_RED = (225,40,40)
 ORANGE =(229,170,23)
 DARK_TURQ = (0,51,51)
 BLACK = (255,255,255)

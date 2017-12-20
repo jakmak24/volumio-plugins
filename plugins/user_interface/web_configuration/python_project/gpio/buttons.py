@@ -3,7 +3,7 @@ from socketIO_client import SocketIO, LoggingNamespace
 import subprocess
 
 DEBOUNCE = 500
-buttons_gpio = {"PLAY":12,"NEXT":25,"PREV":16,"SEEK_UP":21,"SEEK_DOWN":20,"SHUTDOWN":3}
+buttons_gpio = {"PLAY":12,"NEXT":25,"PREV":16,"SEEK_UP":21,"SEEK_DOWN":20,"SHUTDOWN":3,"LED":5}
 
 class Buttons:
 
@@ -45,6 +45,10 @@ class Buttons:
     def shutdown(self,channel):
         subprocess.call("sudo shutdown -t now",shell = True)
 
+    def toggle_led(self,channel):
+        print("Button pressed!" + str(channel))
+        self.command_router.toggle_led()
+
     def enable_gpio(self):
         GPIO.add_event_detect(buttons_gpio["PLAY"], GPIO.RISING, callback= self.play_pause, bouncetime=DEBOUNCE)
         GPIO.add_event_detect(buttons_gpio["NEXT"], GPIO.RISING, callback=self.next, bouncetime=DEBOUNCE)
@@ -52,6 +56,8 @@ class Buttons:
         GPIO.add_event_detect(buttons_gpio["SEEK_UP"], GPIO.RISING, callback=self.seek_up, bouncetime=DEBOUNCE)
         GPIO.add_event_detect(buttons_gpio["SEEK_DOWN"], GPIO.RISING, callback=self.seek_down, bouncetime=DEBOUNCE)
         GPIO.add_event_detect(buttons_gpio["SHUTDOWN"], GPIO.RISING, callback=self.shutdown, bouncetime=DEBOUNCE)
+        GPIO.add_event_detect(buttons_gpio["LED"], GPIO.RISING, callback=self.toggle_led, bouncetime=DEBOUNCE)
+
 
     def __destroy__(self):
         GPIO.cleanup()

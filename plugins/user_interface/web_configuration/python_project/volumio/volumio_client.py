@@ -7,6 +7,8 @@ class CommandRouter:
     def __init__(self,data,socket):
         self.data = data
         self.socket = socket
+        self.nite = False
+        self.led_state = True
         try:
             with open('/home/volumio/komunikaty/conf.json') as json_data:
                 self.alert_config = json.load(json_data)
@@ -66,11 +68,34 @@ class CommandRouter:
 
     def night_mode(self):
         self.stop()
-        tft_simple.turn_off_led()
+        self.turn_off_led()
 
     def normal_mode(self):
         self.play()
+        self.turn_on_led()
+
+    def toggle_nite(self):
+        if self.nite == True:
+            self.normal_mode()
+            self.nite=False
+        else:
+            self.night_mode()
+            self.nite=True
+
+    def turn_on_led(self):
         tft_simple.turn_on_led()
+        self.led_state = True
+        self.nite = False
+
+    def turn_off_led(self):
+        tft_simple.turn_off_led()
+        self.led_state = False
+
+    def toggle_led(self):
+        if self.led_state == True:
+            self.turn_off_led()
+        else:
+            self.turn_on_led()
 
     def play_alert(self,alert_number):
         if self.alert_config is not None:

@@ -5,7 +5,7 @@ import threading
 import time
 import os
 
-from lcd import tft_simple as tft
+import RPi.GPIO as GPIO
 from gpio import buttons
 from gpio import rotary
 from sppob import volumioSppob as spp_dev
@@ -21,7 +21,7 @@ data = {'title':'Unknown','artist':'Unknown','album':'Unknown','status':'stop','
 command_router = None
 
 def signal_term_handler(signal, frame):
-    tft.turn_off_led()
+    GPIO.cleanup()
     sys.exit(0)
 
 signal.signal(signal.SIGTERM, signal_term_handler)
@@ -89,5 +89,5 @@ with SocketIO('localhost', 3000, LoggingNamespace) as socketIO:
     try:
         socketIO.wait()
     except KeyboardInterrupt:
-        tft.turn_off_led()
+        GPIO.cleanup()
         os._exit(0)
