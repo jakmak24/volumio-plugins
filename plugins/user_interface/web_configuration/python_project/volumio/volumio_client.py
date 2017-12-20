@@ -66,6 +66,12 @@ class CommandRouter:
     def mute(self):
         self.socket.emit("volume","mute")
 
+    def toggle_mute(self):
+        if self.data['mute'] == True:
+            self.unmute()
+        else:
+            self.mute()
+
     def night_mode(self):
         self.stop()
         self.turn_off_led()
@@ -97,6 +103,9 @@ class CommandRouter:
         else:
             self.turn_on_led()
 
+    def shutdown(self):
+        subprocess.call("sudo shutdown -t now",shell = True)
+
     def play_alert(self,alert_number):
         if self.alert_config is not None:
             try:
@@ -114,17 +123,29 @@ class CommandRouter:
 
             wasPlaying = False
             if self.data['status'] == 'play':
-                self.pause()
                 wasPlaying = True
+                self.pause()
 
             timeout = 2
             while self.data['status'] == 'play' and timeout>0:
                 time.sleep(0.2)
                 timeout -= 0.2
 
-            toCall = "mpg123 -a hw:"+alsa_config["outputdevice"]["value"]+",0 "+"/home/volumio/komunikaty/"+alert_name
+            if self.data['status'] == 'play':
+                print("Couldnt pause playlist")
+                return
+
+            hw = "hw:"+alsa_config["outputdevice"]["value"]+",0"
+            if alsa_config["outputdevice"]["value"] == "softvolume":
+                hw = "softvolume"
+            toCall = "mpg123 -a "+hw+" /home/volumio/komunikaty/"+alert_name
             subprocess.call(toCall, shell=True)
+            print(self.data['status'])
             if wasPlaying:
                 self.play()
+                timeout = 2
+                while self.data['status'] != 'play' and timeout>0:
+                    time.sleep(0.2)
+                    timeout -= 0.2
         else:
             print("No alert config file")

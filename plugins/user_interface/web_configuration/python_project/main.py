@@ -5,6 +5,7 @@ import threading
 import time
 import os
 
+from ir import ir
 import RPi.GPIO as GPIO
 from gpio import buttons
 from gpio import rotary
@@ -73,6 +74,11 @@ with SocketIO('localhost', 3000, LoggingNamespace) as socketIO:
     rotary_thread.start()
 
     buttons.Buttons(command_router)
+
+    ir_controller = ir.IRController(command_router)
+    ir_thread = threading.Thread(target=ir_controller.listen)
+    ir_thread.setDaemon(True)
+    ir_thread.start()
 
     try:
         volumio_sppob = spp_dev.VolumioSppob(command_router)

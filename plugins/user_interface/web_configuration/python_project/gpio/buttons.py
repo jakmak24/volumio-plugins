@@ -1,6 +1,5 @@
 import RPi.GPIO as GPIO
 from socketIO_client import SocketIO, LoggingNamespace
-import subprocess
 
 DEBOUNCE = 500
 buttons_gpio = {"PLAY":12,"NEXT":25,"PREV":16,"SEEK_UP":21,"SEEK_DOWN":20,"SHUTDOWN":3,"LED":5}
@@ -43,7 +42,8 @@ class Buttons:
         self.command_router.seek(-5)
 
     def shutdown(self,channel):
-        subprocess.call("sudo shutdown -t now",shell = True)
+        print("Button pressed!" + str(channel))
+        self.command_router.shutdown()
 
     def toggle_led(self,channel):
         print("Button pressed!" + str(channel))
