@@ -1,0 +1,39 @@
+wget https://bootstrap.pypa.io/get-pip.py
+python get-pip.py
+pip install socketIO-client
+
+sudo apt-get update
+sudo apt-get install build-essential python-dev python-smbus python-pip python-imaging python-numpy git
+sudo pip install RPi.GPIO
+
+git clone https://github.com/adafruit/Adafruit_Python_ILI9341.git
+cd Adafruit_Python_ILI9341
+sudo python setup.py install
+cd ..
+sudo rm -rf Adafruit_Python_ILI9341
+
+
+sudo pip install pyserial
+sudo pip install crc8
+sudo pip install setproctitle
+
+sudo apt-get install lirc
+
+/etc/modules
+lirc_dev
+lirc_rpi gpio_in_pin=24
+
+/boot/config.txt
+dtparam=spi=on
+dtoverlay=lirc-rpi,gpio_in_pin=24
+
+/etc/lirc/hardware.conf
+LIRCD_ARGS="--uinput"
+DEVICE="/dev/lirc0"
+MODULES="lirc_rpi"
+DRIVER="default"
+
+sudo /etc/init.d/lirc stop
+sudo /etc/init.d/lirc start
+
+sudo apt-get install mpg123
