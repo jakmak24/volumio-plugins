@@ -9,6 +9,7 @@ class CommandRouter:
         self.socket = socket
         self.nite = False
         self.led_state = True
+        self.playing_alert = False
         self.path_to_alerts = "/data/plugins/user_interface/web_configuration/alerts/"
         try:
             with open(self.path_to_alerts+'conf.json') as json_data:
@@ -122,6 +123,10 @@ class CommandRouter:
                 print("Could not load alsa config file")
                 return
 
+            while self.playing_alert:
+                time.sleep(0.2)
+            self.playing_alert = True
+
             wasPlaying = False
             if self.data['status'] == 'play':
                 wasPlaying = True
@@ -141,12 +146,14 @@ class CommandRouter:
                 hw = "softvolume"
             toCall = "mpg123 -a "+hw+" "+ self.path_to_alerts + alert_name
             subprocess.call(toCall, shell=True)
-            print(self.data['status'])
+
             if wasPlaying:
                 self.play()
                 timeout = 2
                 while self.data['status'] != 'play' and timeout>0:
                     time.sleep(0.2)
                     timeout -= 0.2
+
+            self.playing_alert = False
         else:
             print("No alert config file")
