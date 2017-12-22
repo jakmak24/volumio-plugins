@@ -9,8 +9,9 @@ class CommandRouter:
         self.socket = socket
         self.nite = False
         self.led_state = True
+        self.path_to_alerts = "/data/plugins/user_interface/web_configuration/alerts/"
         try:
-            with open('/home/volumio/komunikaty/conf.json') as json_data:
+            with open(self.path_to_alerts+'conf.json') as json_data:
                 self.alert_config = json.load(json_data)
                 print(self.alert_config)
         except:
@@ -138,7 +139,7 @@ class CommandRouter:
             hw = "hw:"+alsa_config["outputdevice"]["value"]+",0"
             if alsa_config["outputdevice"]["value"] == "softvolume":
                 hw = "softvolume"
-            toCall = "mpg123 -a "+hw+" /home/volumio/komunikaty/"+alert_name
+            toCall = "mpg123 -a "+hw+" "+ self.path_to_alerts + alert_name
             subprocess.call(toCall, shell=True)
             print(self.data['status'])
             if wasPlaying:
