@@ -68,13 +68,13 @@ with SocketIO('localhost', 3000, LoggingNamespace) as socketIO:
     update_screen_thread.setDaemon(True)
     update_screen_thread.start()
 
+
     r = rotary.Rotary(command_router)
     rotary_thread = threading.Thread(target=r.loop)
     rotary_thread.setDaemon(True)
     rotary_thread.start()
 
     buttons.Buttons(command_router)
-
     ir_controller = ir.IRController(command_router)
     ir_thread = threading.Thread(target=ir_controller.listen)
     ir_thread.setDaemon(True)

@@ -2,9 +2,9 @@
 import RPi.GPIO as GPIO
 import time
 
-RotateAPin = 17 # Define as CLK Pin
-RotateBPin = 27 # Define as DT Pin
-SwitchPin = 22 # Define as Push Button Pin
+RotateAPin = 16 # Define as CLK Pin
+RotateBPin = 12 # Define as DT Pin
+SwitchPin = 21 # Define as Push Button Pin
 
 class decoder:
 

@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 from socketIO_client import SocketIO, LoggingNamespace
 
 DEBOUNCE = 500
-buttons_gpio = {"PLAY":12,"NEXT":25,"PREV":16,"SEEK_UP":21,"SEEK_DOWN":20,"SHUTDOWN":3,"LED":5}
+buttons_gpio = {"PLAY":13,"NEXT":19,"PREV":6,"SEEK_UP":26,"SEEK_DOWN":5,"SHUTDOWN":3,"LED":20}
 
 class Buttons:
 

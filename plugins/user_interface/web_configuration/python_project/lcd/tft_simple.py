@@ -48,15 +48,15 @@ DARK_TURQ = (0,51,51)
 BLACK = (255,255,255)
 
 # Raspberry Pi configuration.
-DC = 18
-RST = 23
+DC = 24
+RST = 25
 SPI_PORT = 0
 SPI_DEVICE = 0
 
 PIC_SIZE = 70
 # Create TFT LCD display class.
-disp = TFT.ILI9341(DC, rst=RST, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=64000000))
-
+disp = TFT.ILI9341(DC, rst=RST, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
+disp._spi.set_clock_hz(12000000)
 # Initialize display.
 disp.begin()
 
