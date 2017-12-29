@@ -4,7 +4,7 @@ import time
 
 RotateAPin = 16 # Define as CLK Pin
 RotateBPin = 12 # Define as DT Pin
-SwitchPin = 21 # Define as Push Button Pin
+MuteButton = 21 # Define as Push Button Pin
 
 class decoder:
 
@@ -45,10 +45,6 @@ class decoder:
                     print("-")
                     self.callback(-1)
 
-    def cancel(self):
-        self.cbA.cancel()
-        self.cbB.cancel()
-
 
 class Rotary:
     def __init__(self,command_router):
@@ -57,23 +53,23 @@ class Rotary:
         GPIO.setmode(GPIO.BCM) # Set GPIO pin as numbered
         GPIO.setup(RotateAPin, GPIO.IN,pull_up_down = GPIO.PUD_UP) # Set to input mode
         GPIO.setup(RotateBPin, GPIO.IN,pull_up_down = GPIO.PUD_UP) # Set to input mode
-        GPIO.setup(SwitchPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(MuteButton, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+        GPIO.add_event_detect(MuteButton, GPIO.FALLING, callback=self._mute, bouncetime=300)
+        volume_decoder = decoder(RotateBPin,RotateAPin,self._callbackVolume)
 
 
-    def mute(self,channel):
+    def _mute(self,channel):
         status = self.command_router.data["mute"]
         if status == False:
             self.command_router.mute()
         else:
             self.command_router.unmute()
 
-    def callbackVolume(self,volumeStep):
+    def _callbackVolume(self,volumeStep):
         self.counter += volumeStep
 
     def loop(self):
-
-        GPIO.add_event_detect(SwitchPin, GPIO.FALLING, callback=self.mute, bouncetime=300)
-        volume_decoder = decoder(RotateBPin,RotateAPin,self.callbackVolume)
 
         while True :
 

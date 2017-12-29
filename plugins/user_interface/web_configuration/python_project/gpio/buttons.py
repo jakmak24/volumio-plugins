@@ -11,52 +11,52 @@ class Buttons:
         GPIO.setmode(GPIO.BCM)
         for key, value in buttons_gpio.iteritems():
             GPIO.setup(value, GPIO.IN, pull_up_down = GPIO.PUD_UP)
-        self.enable_gpio()
+        self._enable_gpio()
 
-    def play_pause(self,channel):
+    def _play_pause(self,channel):
         print("Button pressed!" + str(channel))
         self.command_router.toggle_play_pause()
 
-    def next(self,channel):
+    def _next(self,channel):
         print("Button pressed!" + str(channel))
         self.command_router.next()
 
-    def prev(self,channel):
+    def _prev(self,channel):
         print("Button pressed!" + str(channel))
         self.command_router.prev()
 
-    def vol_up(self,channel):
+    def _vol_up(self,channel):
         print("Button pressed!" + str(channel))
         self.command_router.vol_up()
 
-    def vol_down(self,channel):
+    def _vol_down(self,channel):
         print("Button pressed!" + str(channel))
         self.command_router.vol_down()
 
-    def seek_up(self,channel):
+    def _seek_up(self,channel):
         print("Button pressed!" + str(channel))
         self.command_router.seek(5)
 
-    def seek_down(self,channel):
+    def _seek_down(self,channel):
         print("Button pressed!" + str(channel))
         self.command_router.seek(-5)
 
-    def shutdown(self,channel):
+    def _shutdown(self,channel):
         print("Button pressed!" + str(channel))
         self.command_router.shutdown()
 
-    def toggle_led(self,channel):
+    def _toggle_led(self,channel):
         print("Button pressed!" + str(channel))
         self.command_router.toggle_led()
 
-    def enable_gpio(self):
-        GPIO.add_event_detect(buttons_gpio["PLAY"], GPIO.RISING, callback= self.play_pause, bouncetime=DEBOUNCE)
-        GPIO.add_event_detect(buttons_gpio["NEXT"], GPIO.RISING, callback=self.next, bouncetime=DEBOUNCE)
-        GPIO.add_event_detect(buttons_gpio["PREV"], GPIO.RISING, callback=self.prev, bouncetime=DEBOUNCE)
-        GPIO.add_event_detect(buttons_gpio["SEEK_UP"], GPIO.RISING, callback=self.seek_up, bouncetime=DEBOUNCE)
-        GPIO.add_event_detect(buttons_gpio["SEEK_DOWN"], GPIO.RISING, callback=self.seek_down, bouncetime=DEBOUNCE)
-        GPIO.add_event_detect(buttons_gpio["SHUTDOWN"], GPIO.RISING, callback=self.shutdown, bouncetime=DEBOUNCE)
-        GPIO.add_event_detect(buttons_gpio["LED"], GPIO.RISING, callback=self.toggle_led, bouncetime=DEBOUNCE)
+    def _enable_gpio(self):
+        GPIO.add_event_detect(buttons_gpio["PLAY"], GPIO.RISING, callback= self._play_pause, bouncetime=DEBOUNCE)
+        GPIO.add_event_detect(buttons_gpio["NEXT"], GPIO.RISING, callback=self._next, bouncetime=DEBOUNCE)
+        GPIO.add_event_detect(buttons_gpio["PREV"], GPIO.RISING, callback=self._prev, bouncetime=DEBOUNCE)
+        GPIO.add_event_detect(buttons_gpio["SEEK_UP"], GPIO.RISING, callback=self._seek_up, bouncetime=DEBOUNCE)
+        GPIO.add_event_detect(buttons_gpio["SEEK_DOWN"], GPIO.RISING, callback=self._seek_down, bouncetime=DEBOUNCE)
+        GPIO.add_event_detect(buttons_gpio["SHUTDOWN"], GPIO.RISING, callback=self._shutdown, bouncetime=DEBOUNCE)
+        GPIO.add_event_detect(buttons_gpio["LED"], GPIO.RISING, callback=self._toggle_led, bouncetime=DEBOUNCE)
 
 
     def __destroy__(self):

@@ -1,14 +1,15 @@
 import subprocess
-from lcd import tft_simple
 import json
 import time
+import threading
 
 class CommandRouter:
-    def __init__(self,data,socket):
-        self.data = data
+    def __init__(self,socket,displayer):
+        self.data = {'title':'Unknown','artist':'Unknown','album':'Unknown','status':'stop','volume':0,'duration':0,'seek':0,'mute':False}
+        self.lock = threading.Lock()
         self.socket = socket
+        self.displayer = displayer
         self.nite = False
-        self.led_state = True
         self.playing_alert = False
         self.path_to_alerts = "/data/plugins/user_interface/web_configuration/alerts/"
         try:
@@ -18,6 +19,32 @@ class CommandRouter:
         except:
             print("Could not load alert config file")
             self.alert_config = None
+
+    def updateData (self,*args):
+
+        self.lock.acquire()
+        self.data = args[0]
+
+        try:
+            if self.data['title'] is None or "":
+                self.data['title'] = "Unknown"
+        except KeyError, e:
+            print e
+            self.data['title'] = "Unknown"
+        try:
+            if self.data['album'] is None or "":
+                self.data['album'] = "Unknown"
+        except KeyError, e:
+            print e
+            self.data['album'] = "Unknown"
+        try:
+            if self.data['artist'] is None or "":
+                self.data['artist'] = "Unknown"
+        except KeyError, e:
+            print e
+            self.data['artist'] = "Unknown"
+        self.lock.release()
+
 
     def pause(self):
         self.socket.emit("pause")
@@ -51,7 +78,6 @@ class CommandRouter:
     def vol_up(self):
         prev = time.time()
         self.socket.emit("volume",'+')
-        #subprocess.Popen(["volumio", "volume","plus"])
         print(time.time()-prev)
 
     def vol_down(self):
@@ -91,19 +117,17 @@ class CommandRouter:
             self.nite=True
 
     def turn_on_led(self):
-        tft_simple.turn_on_led()
-        self.led_state = True
-        self.nite = False
+        if self.displayer is not None:
+            self.displayer.turn_on_led()
+            self.nite = False
 
     def turn_off_led(self):
-        tft_simple.turn_off_led()
-        self.led_state = False
+        if self.displayer is not None:
+            self.displayer.turn_off_led()
 
     def toggle_led(self):
-        if self.led_state == True:
-            self.turn_off_led()
-        else:
-            self.turn_on_led()
+        if self.displayer is not None:
+            self.displayer.toggle_led()
 
     def shutdown(self):
         subprocess.call("sudo shutdown -t now",shell = True)

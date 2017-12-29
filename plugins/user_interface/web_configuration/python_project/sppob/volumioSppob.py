@@ -30,7 +30,7 @@ class VolumioSppob:
         spp.init(self.ser)
         self.load_src()
         self.command_router=command_router
-        self.previous = None
+        self.current_position = None
         signal.signal(16,self.reload_src)
 
     def __destroy__(self):
@@ -123,7 +123,7 @@ class VolumioSppob:
 
     def broadcast_info(self):
         while True:
-            if self.command_router.data["title"] != self.previous:
-                self.previous = self.command_router.data["title"]
+            if self.command_router.data["position"] != self.current_position:
+                self.current_position = self.command_router.data["position"]
                 spp.send(spp.Packet(0xFF,spp.src_address, len(self.command_router.data['title'].encode('charmap','replace'))+1, chr(cmdid.SPP_ID_MULTICAST) + self.command_router.data['title'].encode('charmap','replace')))
             time.sleep(0.5)

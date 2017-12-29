@@ -4,62 +4,33 @@ from socketIO_client import SocketIO, LoggingNamespace
 import threading
 import time
 import os
-
-from ir import ir
-import RPi.GPIO as GPIO
-from gpio import buttons
-from gpio import rotary
-from sppob import volumioSppob as spp_dev
-from volumio import volumio_client as vc
-from lcd import update_screen
+import sys
 import setproctitle
 import signal
 
 setproctitle.setproctitle('volumio_addon')
 
-lock = threading.Lock()
-data = {'title':'Unknown','artist':'Unknown','album':'Unknown','status':'stop','volume':0,'duration':0,'seek':0,'mute':False}
-command_router = None
-
 def signal_term_handler(signal, frame):
-    GPIO.cleanup()
+    print("Received signal:",signal)
     sys.exit(0)
 
 signal.signal(signal.SIGTERM, signal_term_handler)
+signal.signal(signal.SIGINT, signal_term_handler)
 
-def updateData (*args):
-    global command_router
-
-    lock.acquire()
-    command_router.data = args[0]
-
-    try:
-        if command_router.data['title'] is None or "":
-            command_router.data['title'] = "Unknown"
-    except KeyError, e:
-        print e
-        command_router.data['title'] = "Unknown"
-    try:
-        if command_router.data['album'] is None or "":
-            command_router.data['album'] = "Unknown"
-    except KeyError, e:
-        print e
-        command_router.data['album'] = "Unknown"
-    try:
-        if command_router.data['artist'] is None or "":
-            command_router.data['artist'] = "Unknown"
-    except KeyError, e:
-        print e
-        command_router.data['artist'] = "Unknown"
-
-    lock.release()
-
+from gpio import buttons
+from gpio import rotary
+from sppob import volumioSppob as spp_dev
+from volumio import volumio_client as vc
+from lcd import update_screen
+from lcd import tft_simple as tft
+from ir import ir
 
 with SocketIO('localhost', 3000, LoggingNamespace) as socketIO:
-    command_router = vc.CommandRouter(data,socketIO)
-    screen_updater = update_screen.ScreenUpdater(command_router)
+    displayer = tft.TFT_Displayer()
+    command_router = vc.CommandRouter(socketIO,displayer)
+    screen_updater = update_screen.ScreenUpdater(command_router,displayer)
 
-    socketIO.on("pushState", updateData)
+    socketIO.on("pushState", command_router.updateData)
     socketIO.emit("getState")
 
     socketIO.wait(1)
@@ -92,8 +63,4 @@ with SocketIO('localhost', 3000, LoggingNamespace) as socketIO:
     except Exception as e:
         print e
 
-    try:
-        socketIO.wait()
-    except KeyboardInterrupt:
-        GPIO.cleanup()
-        os._exit(0)
+    socketIO.wait()

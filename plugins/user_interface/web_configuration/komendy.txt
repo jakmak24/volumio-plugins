@@ -21,11 +21,11 @@ sudo apt-get install lirc
 
 /etc/modules
 lirc_dev
-lirc_rpi gpio_in_pin=24
+lirc_rpi gpio_in_pin=22
 
 /boot/config.txt
 dtparam=spi=on
-dtoverlay=lirc-rpi,gpio_in_pin=24
+dtoverlay=lirc-rpi,gpio_in_pin=22
 
 /etc/lirc/hardware.conf
 LIRCD_ARGS="--uinput"
