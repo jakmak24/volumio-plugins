@@ -153,4 +153,5 @@ class TFT_Displayer():
             print "Error during display",e
 
         def __destroy__(self):
+            self.turn_off_led()
             GPIO.cleanup()

@@ -6,7 +6,7 @@ import spp
 import cmdid
 import time
 import json
-import signal
+
 
 VOLUMIO_PLAY = 0x01
 VOLUMIO_VOL = 0x02
@@ -18,7 +18,7 @@ VOLUMIO_ALERT = 0x06
 DEFAULT_ADDRESS = 0x11
 
 class VolumioSppob:
-    def __init__(self,command_router):
+    def __init__(self,command_router,config):
 
         self.ser = serial.Serial(
             port='/dev/ttyUSB0',
@@ -28,28 +28,20 @@ class VolumioSppob:
             bytesize=serial.EIGHTBITS
         )
         spp.init(self.ser)
-        self.load_src()
         self.command_router=command_router
         self.current_position = None
-        signal.signal(16,self.reload_src)
+        try:
+            src = config['sppob']['group']['value']*16 + config['sppob']['device']['value']
+            spp.set_src(src)
+        except:
+            print("Failed to load data")
+            spp.set_src(DEFAULT_ADDRESS)
 
     def __destroy__(self):
         self.ser.close()
 
-    def reload_src(self, signum, frame):
-        time.sleep(3)
-        self.load_src()
 
-    def load_src(self):
-        try:
-            with open('/data/configuration/user_interface/web_configuration/config.json') as json_data:
-                data = json.load(json_data)
-                src = data['sppobAddress']['group']['value']*16 + data['sppobAddress']['device']['value']
-                print("RELOAD SRC:" + format(src,'02x'))
-                spp.set_src(src)
-        except:
-            print("Failed to load data")
-            spp.set_src(DEFAULT_ADDRESS)
+
 
 
 

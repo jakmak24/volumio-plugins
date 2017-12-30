@@ -52,7 +52,8 @@ webConfiguration.prototype.onStop = function() {
 
 webConfiguration.prototype.onRestart = function() {
     var self = this;
-    // Optional, use if you need it
+    exec('python /data/plugins/user_interface/web_configuration/python_project/main.py')
+		exec('pkill volumio_addon')
 };
 
 
@@ -69,12 +70,14 @@ webConfiguration.prototype.getUIConfig = function() {
         __dirname + '/UIConfig.json')
         .then(function(uiconf)
         {
-            uiconf.sections[0].content[0].value = self.config.get('sppobAddress.enabled');
-            uiconf.sections[0].content[1].value.value = self.config.get('sppobAddress.group');
-            uiconf.sections[0].content[1].value.label = self.config.get('sppobAddress.group').toString(16).toUpperCase();
-            uiconf.sections[0].content[2].value.value = self.config.get('sppobAddress.device');
-            uiconf.sections[0].content[2].value.label = self.config.get('sppobAddress.device').toString(16).toUpperCase();
-
+            uiconf.sections[0].content[0].value = self.config.get('sppob.enabled');
+            uiconf.sections[0].content[1].value.value = self.config.get('sppob.group');
+            uiconf.sections[0].content[1].value.label = self.config.get('sppob.group').toString(16).toUpperCase();
+            uiconf.sections[0].content[2].value.value = self.config.get('sppob.device');
+            uiconf.sections[0].content[2].value.label = self.config.get('sppob.device').toString(16).toUpperCase();
+						uiconf.sections[1].content[0].value = self.config.get('buttons.enabled');
+						uiconf.sections[2].content[0].value = self.config.get('displayer.enabled');
+						uiconf.sections[3].content[0].value = self.config.get('remote.enabled');
             defer.resolve(uiconf);
         })
         .fail(function()
@@ -256,12 +259,36 @@ webConfiguration.prototype._searchTracks = function (results) {
 
 };
 
-webConfiguration.prototype.saveConfig = function(data)
+webConfiguration.prototype.saveSppob = function(data)
 {
     var self = this;
-    self.config.set('sppobAddress.enabled',data['SppobEnabled']);
-	self.config.set('sppobAddress.group',data['SppobGroup']['value']);
-    self.config.set('sppobAddress.device',data['SppobDevice']['value']);
-    exec('pkill -16 volumio_addon');
-	self.commandRouter.pushToastMessage('success',"Sppob Address", "Configuration saved");
+    self.config.set('sppob.enabled',data['SppobEnabled']);
+	self.config.set('sppob.group',data['SppobGroup']['value']);
+    self.config.set('sppob.device',data['SppobDevice']['value']);
+
+	self.commandRouter.pushToastMessage('success',"Sppob Address", "Configuration saved.\n Restart plugin to apply");
+};
+
+webConfiguration.prototype.saveButtons = function(data)
+{
+    var self = this;
+    self.config.set('buttons.enabled',data['ButtonsEnabled']);
+
+	self.commandRouter.pushToastMessage('success',"Buttons", "Configuration saved.\n Restart plugin to apply");
+};
+
+webConfiguration.prototype.saveDisplayer = function(data)
+{
+    var self = this;
+    self.config.set('displayer.enabled',data['DisplayerEnabled']);
+
+	self.commandRouter.pushToastMessage('success',"Displayer", "Configuration saved.\n Restart plugin to apply");
+};
+
+webConfiguration.prototype.saveRemoteController = function(data)
+{
+    var self = this;
+    self.config.set('remote.enabled',data['IREnabled']);
+
+	self.commandRouter.pushToastMessage('success',"Remote Controller", "Configuration saved.\n Restart plugin to apply");
 };

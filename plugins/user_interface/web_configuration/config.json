@@ -1,7 +1,16 @@
 {
-  "sppobAddress":{
-    "enabled": {"value": false, "type": "boolean"}, 
+  "sppob":{
+    "enabled": {"value": false, "type": "boolean"},
     "group": {"value": 0,"type":"number"},
     "device": {"value": 0,"type":"number"}
+  },
+  "buttons":{
+    "enabled": {"value": false, "type": "boolean"}
+  },
+  "displayer":{
+    "enabled": {"value": false, "type": "boolean"}
+  },
+  "remote":{
+    "enabled": {"value": false, "type": "boolean"}
   }
 }

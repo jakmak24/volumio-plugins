@@ -6,17 +6,17 @@
 		"id": "sppob_config",
 		"element": "section",
 		"label": "SPPoB",
-		"icon": "fa-beer",
+		"icon": "fa-plug",
 		"onSave": {
 			"type": "controller",
 			"endpoint": "user_interface/web_configuration",
-			"method": "saveConfig"
+			"method": "saveSppob"
 		},
 		"saveButton": {
 			"label": "Save",
 			"data": ["SppobEnabled",
 			"SppobGroup",
-            "SppobDevice"]
+      "SppobDevice"]
 		},
 		"content": [{
 			"id": "SppobEnabled",
@@ -176,5 +176,69 @@
 				"value": true
 			}
 		}]
-	}]
+	},
+	{
+		"id": "buttons_config",
+		"element": "section",
+		"label": "Buttons",
+		"icon": "fa-keyboard-o",
+		"onSave": {
+			"type": "controller",
+			"endpoint": "user_interface/web_configuration",
+			"method": "saveButtons"
+		},
+		"saveButton": {
+			"label": "Save",
+			"data": ["ButtonsEnabled"]
+		},
+		"content": [{
+			"id": "ButtonsEnabled",
+			"element": "switch",
+			"label": "Buttons",
+			"value": true
+			}]
+	},
+	{
+		"id": "displayer_config",
+		"element": "section",
+		"label": "Displayer",
+		"icon": "fa-television",
+		"onSave": {
+			"type": "controller",
+			"endpoint": "user_interface/web_configuration",
+			"method": "saveDisplayer"
+		},
+		"saveButton": {
+			"label": "Save",
+			"data": ["DisplayerEnabled"]
+		},
+		"content": [{
+			"id": "DisplayerEnabled",
+			"element": "switch",
+			"label": "Enable Displayer",
+			"value": true
+			}]
+		},
+		{
+			"id": "ir_config",
+			"element": "section",
+			"label": "Remote Controller",
+			"icon": "fa-gamepad",
+			"onSave": {
+				"type": "controller",
+				"endpoint": "user_interface/web_configuration",
+				"method": "saveRemoteController"
+			},
+			"saveButton": {
+				"label": "Save",
+				"data": ["IREnabled"]
+			},
+			"content": [{
+				"id": "IREnabled",
+				"element": "switch",
+				"label": "Enable Remote Controller",
+				"value": true
+				}]
+			}
+	]
 }
