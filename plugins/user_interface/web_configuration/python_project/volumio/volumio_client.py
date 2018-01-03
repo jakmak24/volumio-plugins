@@ -9,7 +9,7 @@ class CommandRouter:
         self.lock = threading.Lock()
         self.socket = socket
         self.displayer = displayer
-        self.nite = False
+        self.night = False
         self.playing_alert = False
         self.path_to_alerts = "/data/plugins/user_interface/web_configuration/alerts/"
         try:
@@ -108,18 +108,18 @@ class CommandRouter:
         self.play()
         self.turn_on_led()
 
-    def toggle_nite(self):
-        if self.nite == True:
+    def toggle_mode(self):
+        if self.night == True:
             self.normal_mode()
-            self.nite=False
+            self.night=False
         else:
             self.night_mode()
-            self.nite=True
+            self.night=True
 
     def turn_on_led(self):
         if self.displayer is not None:
             self.displayer.turn_on_led()
-            self.nite = False
+            self.night = False
 
     def turn_off_led(self):
         if self.displayer is not None:

@@ -2,7 +2,7 @@ from lcd import tft_simple as tft
 import time
 
 class ScreenUpdater():
-    def __init__(self,command_router,displayer):
+    def __init__(self,command_router):
         self.command_router = command_router
         self.lastUpdate = int(time.time())
         self.offset_title =0
@@ -10,7 +10,6 @@ class ScreenUpdater():
         self.offset_album = 0
         self.pause = 0
         offset_state = 0
-        self.displayer = displayer
 
     def reset_offset(self):
         self.lastUpdate = int(time.time())
@@ -25,7 +24,7 @@ class ScreenUpdater():
         last_position = None
         while (True):
             time.sleep(0.2)
-            if self.displayer.led_state == True:
+            if self.command_router.displayer.led_state == True:
                 if last_position != self.command_router.data['position']:
                     self.reset_offset()
                     last_position = self.command_router.data['position']
@@ -62,4 +61,4 @@ class ScreenUpdater():
 
                         self.command_router.data['seek']  += (1000*(currentTime - self.lastUpdate))
                 self.lastUpdate = currentTime
-                self.displayer.displayData(self.command_router.data,self.offset_title,self.offset_artist,self.offset_album)
+                self.command_router.displayer.displayData(self.command_router.data,self.offset_title,self.offset_artist,self.offset_album)

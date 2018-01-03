@@ -21,6 +21,7 @@ BLACK = (255,255,255)
 MAX_CHARS_PER_LINE = 18
 PIC_SIZE = 70
 
+clear = Image.new('RGBA', (240, 320), (0,0,0,255))
 playImage = Image.open('/data/plugins/user_interface/web_configuration/python_project/lcd/play.png').resize((PIC_SIZE, PIC_SIZE)).rotate(270)
 pauseImage = Image.open('/data/plugins/user_interface/web_configuration/python_project/lcd/pause.png').resize((PIC_SIZE, PIC_SIZE)).rotate(270)
 stopImage = Image.open('/data/plugins/user_interface/web_configuration/python_project/lcd/stop.png').resize((PIC_SIZE, PIC_SIZE)).rotate(270)
@@ -33,7 +34,6 @@ class TFT_Displayer():
         self.disp = TFT.ILI9341(DC, rst=RST, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
         self.disp._spi.set_clock_hz(12000000)
         self.disp.begin()
-        self.disp.clear((0, 0, 0))
         self.led_state = True
 
         GPIO.setmode(GPIO.BCM)
@@ -84,7 +84,7 @@ class TFT_Displayer():
     def displayData(self,data,offset_title,offset_artist,offset_album):
 
         try:
-            self.disp.clear((0, 0, 0))
+            self.disp.buffer.paste(clear,(0,0))
 
             title_to_display = data['title'][offset_title : MAX_CHARS_PER_LINE + 1 + offset_title]
             artist_to_display = data['artist'][offset_artist : MAX_CHARS_PER_LINE + 1 + offset_artist]

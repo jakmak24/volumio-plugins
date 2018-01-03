@@ -28,8 +28,6 @@ with SocketIO('localhost', 3000, LoggingNamespace) as socketIO:
     with open('/data/configuration/user_interface/web_configuration/config.json') as json_data:
         config = json.load(json_data)
 
-
-
     if config['displayer']['enabled']['value'] == True:
         from lcd import tft_simple as tft
         displayer = tft.TFT_Displayer()
@@ -43,7 +41,7 @@ with SocketIO('localhost', 3000, LoggingNamespace) as socketIO:
 
     if displayer is not None:
         from lcd import update_screen
-        screen_updater = update_screen.ScreenUpdater(command_router,displayer)
+        screen_updater = update_screen.ScreenUpdater(command_router)
         update_screen_thread = threading.Thread(target=screen_updater.updateScreen)
         update_screen_thread.setDaemon(True)
         update_screen_thread.start()

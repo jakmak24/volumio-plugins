@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import serial
 import threading
 import os
 import spp
@@ -20,34 +19,19 @@ DEFAULT_ADDRESS = 0x11
 class VolumioSppob:
     def __init__(self,command_router,config):
 
-        self.ser = serial.Serial(
-            port='/dev/ttyUSB0',
-            baudrate=19200,
-            parity=serial.PARITY_NONE,
-            stopbits=serial.STOPBITS_ONE,
-            bytesize=serial.EIGHTBITS
-        )
-        spp.init(self.ser)
         self.command_router=command_router
+        self.sppob =spp.SPPoB()
         self.current_position = None
         try:
             src = config['sppob']['group']['value']*16 + config['sppob']['device']['value']
-            spp.set_src(src)
+            self.sppob.set_src(src)
         except:
             print("Failed to load data")
-            spp.set_src(DEFAULT_ADDRESS)
-
-    def __destroy__(self):
-        self.ser.close()
-
-
-
-
-
+            self.sppob.set_src(DEFAULT_ADDRESS)
 
     def listen(self):
         while True:
-            packet_buffer = spp.listen_packet()
+            packet_buffer = self.sppob.listen_packet()
             if packet_buffer is not None:
                 if packet_buffer.payload[0] == chr(VOLUMIO_PLAY | cmdid.SPP_ID_CHAN_ON) and len(packet_buffer.payload) == 1:
                     print "Performing play"
@@ -117,5 +101,5 @@ class VolumioSppob:
         while True:
             if self.command_router.data["position"] != self.current_position:
                 self.current_position = self.command_router.data["position"]
-                spp.send(spp.Packet(0xFF,spp.src_address, len(self.command_router.data['title'].encode('charmap','replace'))+1, chr(cmdid.SPP_ID_MULTICAST) + self.command_router.data['title'].encode('charmap','replace')))
+                self.sppob.send(spp.Packet(0xFF,self.sppob.src_address, len(self.command_router.data['title'].encode('charmap','replace'))+1, chr(cmdid.SPP_ID_MULTICAST) + self.command_router.data['title'].encode('charmap','replace')))
             time.sleep(0.5)

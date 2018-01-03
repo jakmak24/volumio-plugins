@@ -1,5 +1,4 @@
 import RPi.GPIO as GPIO
-from socketIO_client import SocketIO, LoggingNamespace
 
 DEBOUNCE = 500
 buttons_gpio = {"PLAY":13,"NEXT":19,"PREV":6,"SEEK_UP":26,"SEEK_DOWN":5,"SHUTDOWN":3,"LED":20}
@@ -13,7 +12,7 @@ class Buttons:
             GPIO.setup(value, GPIO.IN, pull_up_down = GPIO.PUD_UP)
         self._enable_gpio()
 
-    def _play_pause(self,channel):
+    def _toggle_play_pause(self,channel):
         print("Button pressed!" + str(channel))
         self.command_router.toggle_play_pause()
 
@@ -50,7 +49,7 @@ class Buttons:
         self.command_router.toggle_led()
 
     def _enable_gpio(self):
-        GPIO.add_event_detect(buttons_gpio["PLAY"], GPIO.RISING, callback= self._play_pause, bouncetime=DEBOUNCE)
+        GPIO.add_event_detect(buttons_gpio["PLAY"], GPIO.RISING, callback= self._toggle_play_pause, bouncetime=DEBOUNCE)
         GPIO.add_event_detect(buttons_gpio["NEXT"], GPIO.RISING, callback=self._next, bouncetime=DEBOUNCE)
         GPIO.add_event_detect(buttons_gpio["PREV"], GPIO.RISING, callback=self._prev, bouncetime=DEBOUNCE)
         GPIO.add_event_detect(buttons_gpio["SEEK_UP"], GPIO.RISING, callback=self._seek_up, bouncetime=DEBOUNCE)
