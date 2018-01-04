@@ -44,6 +44,7 @@ webConfiguration.prototype.onStop = function() {
     var self = this;
     var defer=libQ.defer();
 		exec('pkill volumio_addon')
+		exec('pkill irw')
     // Once the Plugin has successfull stopped resolve the promise
     defer.resolve();
 
@@ -52,8 +53,10 @@ webConfiguration.prototype.onStop = function() {
 
 webConfiguration.prototype.onRestart = function() {
     var self = this;
-    exec('python /data/plugins/user_interface/web_configuration/python_project/main.py')
 		exec('pkill volumio_addon')
+		exec('pkill irw')
+    exec('python /data/plugins/user_interface/web_configuration/python_project/main.py')
+
 };
 
 
