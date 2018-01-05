@@ -21,13 +21,13 @@
 		"content": [{
 			"id": "SppobEnabled",
 			"element": "switch",
-			"label": "Enable Sppob",
+			"label": "Enable SPPoB",
 			"value": true
 		},
 		{
 			"id": "SppobGroup",
 			"element": "select",
-			"label": "Sppob group address",
+			"label": "SPPoB group address",
 			"value": {
 				"value": 0,
 				"label": "0"
@@ -105,7 +105,7 @@
         {
 			"id": "SppobDevice",
 			"element": "select",
-			"label": "Sppob device address",
+			"label": "SPPoB device address",
 			"value": {
 				"value": 0,
 				"label": "0"

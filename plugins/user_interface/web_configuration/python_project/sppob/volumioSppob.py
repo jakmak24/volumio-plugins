@@ -16,7 +16,7 @@ VOLUMIO_ALERT = 0x06
 
 DEFAULT_ADDRESS = 0x11
 
-class VolumioSppob:
+class VolumioSPPoB:
     def __init__(self,command_router,config):
 
         self.command_router=command_router

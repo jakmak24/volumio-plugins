@@ -67,7 +67,7 @@ with SocketIO('localhost', 3000, LoggingNamespace) as socketIO:
     if config['sppob']['enabled']['value'] == True:
         from sppob import volumioSppob as spp_dev
         try:
-            volumio_sppob = spp_dev.VolumioSppob(command_router,config)
+            volumio_sppob = spp_dev.VolumioSPPoB(command_router,config)
             listen_thead = threading.Thread(target=volumio_sppob.listen)
             listen_thead.setDaemon(True)
             listen_thead.start()
