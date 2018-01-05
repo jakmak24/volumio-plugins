@@ -29,6 +29,8 @@ DEVICE="/dev/lirc0"
 MODULES="lirc_rpi"
 DRIVER="default"
 
+irrecord -d /dev/lirc0 ~/lircd.conf
+
 sudo /etc/init.d/lirc stop
 sudo /etc/init.d/lirc start
 
