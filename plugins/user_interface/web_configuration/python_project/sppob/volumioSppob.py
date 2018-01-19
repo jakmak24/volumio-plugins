@@ -67,24 +67,24 @@ class VolumioSPPoB:
                     print packet_buffer.payload[1:]
                 elif packet_buffer.payload[0] == chr(cmdid.SPP_ID_REQ | VOLUMIO_PLAY):
                     print "command_router request"
-                    packet_to_send = spp.Packet(packet_buffer.src_address, spp.src_address, len(self.command_router.data['status'].encode('charmap','replace'))+1, chr(cmdid.SPP_ID_RESP | VOLUMIO_PLAY) + str(self.command_router.data['status'].encode('charmap','replace')))
-                    spp.send(packet_to_send)
+                    packet_to_send = spp.Packet(packet_buffer.src_address, self.sppob.src_address, len(self.command_router.data['status'].encode('charmap','replace'))+1, chr(cmdid.SPP_ID_RESP | VOLUMIO_PLAY) + str(self.command_router.data['status'].encode('charmap','replace')))
+                    self.sppob.send(packet_to_send)
                 elif packet_buffer.payload[0] == chr(cmdid.SPP_ID_REQ | VOLUMIO_VOL):
                     print "command_router volume"
-                    packet_to_send = spp.Packet(packet_buffer.src_address, spp.src_address, 2, chr(cmdid.SPP_ID_RESP | VOLUMIO_VOL) + chr(self.command_router.data['volume']))
-                    spp.send(packet_to_send)
+                    packet_to_send = spp.Packet(packet_buffer.src_address, self.sppob.src_address, 2, chr(cmdid.SPP_ID_RESP | VOLUMIO_VOL) + chr(self.command_router.data['volume']))
+                    self.sppob.send(packet_to_send)
                 elif packet_buffer.payload[0] == chr(cmdid.SPP_ID_REQ | VOLUMIO_TITLE):
                     print "title request"
-                    packet_to_send = spp.Packet(packet_buffer.src_address, spp.src_address, len(self.command_router.data['title'].encode('charmap','replace'))+1, chr(cmdid.SPP_ID_RESP | VOLUMIO_TITLE) + self.command_router.data['title'].encode('charmap','replace'))
-                    spp.send(packet_to_send)
+                    packet_to_send = spp.Packet(packet_buffer.src_address, self.sppob.src_address, len(self.command_router.data['title'].encode('charmap','replace'))+1, chr(cmdid.SPP_ID_RESP | VOLUMIO_TITLE) + self.command_router.data['title'].encode('charmap','replace'))
+                    self.sppob.send(packet_to_send)
                 elif packet_buffer.payload[0] == chr(cmdid.SPP_ID_REQ | VOLUMIO_ARTIST):
                     print "artist request"
-                    packet_to_send = spp.Packet(packet_buffer.src_address, spp.src_address, len(self.command_router.data['artist'].encode('charmap','replace'))+1, chr(cmdid.SPP_ID_RESP | VOLUMIO_TITLE) + self.command_router.data['artist'].encode('charmap','replace'))
-                    spp.send(packet_to_send)
+                    packet_to_send = spp.Packet(packet_buffer.src_address, self.sppob.src_address, len(self.command_router.data['artist'].encode('charmap','replace'))+1, chr(cmdid.SPP_ID_RESP | VOLUMIO_TITLE) + self.command_router.data['artist'].encode('charmap','replace'))
+                    self.sppob.send(packet_to_send)
                 elif packet_buffer.payload[0] == chr(cmdid.SPP_ID_REQ | VOLUMIO_ALBUM):
                     print "album request"
-                    packet_to_send = spp.Packet(packet_buffer.src_address, spp.src_address, len(self.command_router.data['album'].encode('charmap','replace'))+1, chr(cmdid.SPP_ID_RESP | VOLUMIO_TITLE) + self.command_router.data['album'].encode('charmap','replace'))
-                    spp.send(packet_to_send)
+                    packet_to_send = spp.Packet(packet_buffer.src_address, self.sppob.src_address, len(self.command_router.data['album'].encode('charmap','replace'))+1, chr(cmdid.SPP_ID_RESP | VOLUMIO_TITLE) + self.command_router.data['album'].encode('charmap','replace'))
+                    self.sppob.send(packet_to_send)
                 elif packet_buffer.payload[0] == chr(cmdid.SPP_ID_NITEMODE_ON) and len(packet_buffer.payload) == 1:
                     print "Performing sleep"
                     self.command_router.night_mode()

@@ -1,6 +1,6 @@
 wget https://bootstrap.pypa.io/get-pip.py
-python get-pip.py
-pip install socketIO-client
+sudo python get-pip.py
+sudo pip install socketIO-client
 
 sudo apt-get update
 sudo apt-get install build-essential python-dev python-smbus python-pip python-imaging python-numpy git
